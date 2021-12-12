@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class Shogi {
 
@@ -56,12 +57,15 @@ public class Shogi {
 	private void initialize() {
 		//創立主畫面
 		frame = new JFrame();
+		frame.setTitle("\u5C07\u68CB\u5927\u5E2B");
 		//畫面大小
 		frame.setBounds(100, 100, 900, 900);
 		//設置默認關閉操作
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//獲取內容窗格 &　設置佈局
 		frame.getContentPane().setLayout(null);
+		//應用程式縮圖
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\40491\\eclipse-workspace\\ShoGi-JavaGUI\\Picture\\ShoGi.png"));
 		
 		//初始化9x9的棋盤格
 		for(int j=0;j<9;j++){
