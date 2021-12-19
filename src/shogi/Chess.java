@@ -4,15 +4,16 @@ import javax.swing.JButton;
 
 public class Chess {
 	
-	public Chess(String Chess,int ChessPlayer){
-		this.Chess = Chess;
-		this.ChessPlayer = ChessPlayer;
-	}
-	
 	private int Position = 0;
 	private String Chess = null; //棋子種類
 	private int ChessPlayer; //所屬玩家
 	private boolean Live = true; //存活
+	
+	//建構者
+	public Chess(String Chess,int ChessPlayer){
+		this.Chess = Chess;
+		this.ChessPlayer = ChessPlayer;
+	}
 	
 	public int getPosition(){
 		return this.Position;
@@ -57,7 +58,7 @@ public class Chess {
 		}
 	}
 	
-	public String getChess(){
+	public String getChess_Class(){
 		return this.Chess;
 	}
 	
@@ -190,9 +191,9 @@ class Knight{
 		int PositionY = Position/10-1;
 		int PositionX = Position%10-1;
 
-		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,2,1);
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<8 && PositionX>-1)
+			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,2,1);
+		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
 			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,2,-1);
 	}
 	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
@@ -200,9 +201,9 @@ class Knight{
 		int PositionY = Position/10-1;
 		int PositionX = Position%10-1;
 		
-		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,2,1);
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<8 && PositionX>-1)
+			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,2,1);
+		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
 			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,2,-1);
 	}
 }
