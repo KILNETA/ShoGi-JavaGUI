@@ -5,28 +5,25 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
-import java.awt.GridBagLayout;
 import javax.swing.JTextField;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
-import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
-import javax.swing.JLayeredPane;
-import javax.swing.JTextPane;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+
+import java.io.File;
+
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class Login {
 
@@ -87,19 +84,82 @@ public class Login {
 		JButton Login = new JButton("\u767B\u5165");
 		Login.setBounds(282, 220, 80, 26);
 		Login.addActionListener(	new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.getText();
-				passwordField.getPassword();
+			public void actionPerformed(ActionEvent e2) {
+				String password = new String(passwordField.getPassword());
+		        /* 讀入TXT檔案 */
 				
-		}	}	);
+				//檢查帳號密碼是否填寫正確
+				if( textField.getText().compareTo("")!=0 && password.compareTo("")!=0 ) {
+		        try {
+		        	//如果檔案不存在 創建空檔案
+		        	if(!new File("Login.txt").exists()) new File("Login.txt").createNewFile();
+		        
+		            InputStreamReader reader = new InputStreamReader(    new FileInputStream(new File("Login.txt"))    ); // 建立一個輸入流物件reader
+		            BufferedReader br = new BufferedReader(reader); // 建立一個物件，它把檔案內容轉成計算機能讀懂的語言
+		            String line = "";
+		            
+		            while (line != null) {
+		                line = br.readLine(); // 一次讀入一行資料
+		                
+		                if(line!=null) {
+		                    String[] splitted = line.split(" ");       
+		                    if(splitted[0].compareTo(textField.getText())==0 && splitted[1].compareTo(password)==0)
+		                    {
+		                    	System.out.println("登入成功");
+		                    	return;
+		            }	}	}
+		            System.out.println("帳號密碼錯誤");
+		            return;
+		        }
+		        catch (Exception e1) {
+		            e1.printStackTrace();
+		        }
+		}	}	});
 		frame.getContentPane().add(Login);
 		
 		JButton TryItOut = new JButton("\u8A66\u73A9");
 		TryItOut.setBounds(177, 220, 80, 26);
+		TryItOut.addActionListener(	new ActionListener() {
+			public void actionPerformed(ActionEvent e3) {
+		           frame.dispose();
+		}	});
 		frame.getContentPane().add(TryItOut);
 		
 		JButton Register = new JButton("\u8A3B\u518A");
 		Register.setBounds(72, 220, 80, 26);
+		Register.addActionListener(	new ActionListener() {
+			public void actionPerformed(ActionEvent e4) {
+				String password = new String(passwordField.getPassword());
+				
+				//檢查帳號密碼是否填寫正確
+				if( textField.getText().compareTo("")!=0 && password.compareTo("")!=0 ) {
+				try {
+			        //如果檔案不存在 創建空檔案
+			    	if(	!new File("Login.txt").exists()	) new File("Login.txt").createNewFile();
+			    	
+			           	InputStreamReader reader = new InputStreamReader(    new FileInputStream(new File("Login.txt"))    ); // 建立一個輸入流物件reader
+			           	BufferedReader br = new BufferedReader(reader); // 建立一個物件，它把檔案內容轉成計算機能讀懂的語言
+			           	String line = "";
+			            
+			           	while (	line != null	) {
+			               	line = br.readLine(); // 一次讀入一行資料
+			               	if(	line!=null	) {
+			                   	String[] splitted = line.split(" ");    
+			                   	if(splitted[0].compareTo(textField.getText())==0){
+			                   		System.out.println("此帳戶已被註冊");	return;
+			        }   }	}	}
+				catch (Exception e1) { e1.printStackTrace();	}
+					
+			        try {	        	
+			            /* 寫入txt檔案 */
+			            BufferedWriter out = new BufferedWriter(new FileWriter("Login.txt",true));
+			            out.write(textField.getText() + " " + password + "\r\n"); // \r\n即為換行
+			            out.close(); // 最後記得關閉檔案
+			        } 
+			        catch (Exception e1) { e1.printStackTrace();	}	
+			    }
+				else; //輸出未正確輸出入帳號密碼-----------------------------------++++
+		}	}	);
 		frame.getContentPane().add(Register);
 		
 		JLabel ShoGi_LOGO = new JLabel(new ImageIcon("Picture\\First_king Up.png"));
