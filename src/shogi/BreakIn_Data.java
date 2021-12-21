@@ -15,11 +15,9 @@ public abstract class BreakIn_Data implements ActionListener {
 		this.GridPlayer = GridPlayer;
 	}
 	
+	//得知擁有玩家
 	public int getPlayer(){
 		return this.GridPlayer;
-	}
-	public void setPlayer(int Player){
-		this.GridPlayer = Player;
 	}
 	
 	//給予格子屬性

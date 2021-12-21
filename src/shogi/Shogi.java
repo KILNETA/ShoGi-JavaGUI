@@ -19,7 +19,7 @@ public class Shogi {
 /*-------------------------Variable-------------------------*/	
 
 	
-	private JFrame frame;
+	private JFrame Shogi_frame;
 	//棋盤上的9x9個棋盤格
 	JButton CheckerGrid[][] = new JButton[9][9];
 	CheckerGrid_Data CheckerB[][]= new CheckerGrid_Data[9][9];
@@ -44,7 +44,7 @@ public class Shogi {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					Shogi window = new Shogi();
-					window.frame.setVisible(true);
+					Login login = new Login(window.Shogi_frame);
 				} 
 				catch (Exception e) {
 					e.printStackTrace();
@@ -62,19 +62,21 @@ public class Shogi {
 	 */
 	private void initialize() {
 		//創立主畫面
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setEnabled(false);
-		
-		frame.setTitle("\u5C07\u68CB\u5927\u5E2B");
+		Shogi_frame = new JFrame();
+		//調整窗口大小(停用)
+		Shogi_frame.setResizable(false);
+		//停用窗口 (直到登入窗口登入成功)
+		Shogi_frame.setEnabled(false);
+		//窗口標題
+		Shogi_frame.setTitle("\u5C07\u68CB\u5927\u5E2B");
 		//畫面大小
-		frame.setBounds(100, 100, 1040, 810);
+		Shogi_frame.setBounds(100, 100, 1040, 810);
 		//設置默認關閉操作
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Shogi_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//獲取內容窗格 &　設置佈局
-		frame.getContentPane().setLayout(null);
+		Shogi_frame.getContentPane().setLayout(null);
 		//應用程式縮圖
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\40491\\eclipse-workspace\\ShoGi-JavaGUI\\Picture\\ShoGi.png"));
+		Shogi_frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\40491\\eclipse-workspace\\ShoGi-JavaGUI\\Picture\\ShoGi.png"));
 		
 		//初始化9x9的棋盤格
 		for(int j=0;j<9;j++){
@@ -102,7 +104,7 @@ public class Shogi {
 				//按鈕位置&大小
 				CheckerGrid[j][i].setBounds(746-(66*i), 30+(80*j), 66, 80);
 				//於畫面上顯示按鈕
-				frame.getContentPane().add(CheckerGrid[j][i]);
+				Shogi_frame.getContentPane().add(CheckerGrid[j][i]);
 				//去除聚焦線
 				CheckerGrid[j][i].setFocusPainted(false);
 				//設置垂直文本 置中
@@ -133,7 +135,7 @@ public class Shogi {
 			//按鈕位置&大小
 			BreakInGrid[P][j][i].setBounds(822+(66*i)-(812*P), 510+(80*j)-(480*P), 66, 80);
 			//於畫面上顯示按鈕
-			frame.getContentPane().add(BreakInGrid[P][j][i]);
+			Shogi_frame.getContentPane().add(BreakInGrid[P][j][i]);
 			//去除聚焦線
 			BreakInGrid[P][j][i].setFocusPainted(false);
 			//設置垂直文本 置底
@@ -149,19 +151,15 @@ public class Shogi {
 		initialize_BreakInGrid();
 		
 		
-		//標記棋盤 (編輯器用)	--------------------//
+		//標記棋盤 (編輯器用)	----------------------------//
 		JPanel panel = new JPanel();				//
 		panel.setBounds(218, 30, 594, 720);			//
-		frame.getContentPane().add(panel);			//
+		Shogi_frame.getContentPane().add(panel);	//
 													//
 		JPanel panel_1 = new JPanel();				//
 		panel_1.setBounds(10, 30, 198, 240);		//
-		frame.getContentPane().add(panel_1);		//
-		//標記棋盤 (編輯器用)	--------------------//
-		
-		Login login = new Login();
-		login.main();
-
+		Shogi_frame.getContentPane().add(panel_1);	//
+		//標記棋盤 (編輯器用)	----------------------------//
 	}
 	
 	/**
@@ -215,6 +213,8 @@ public class Shogi {
 	 */
 	private void initialize_BreakInGrid() {
 		String direction[]= {" Up"," Down"};
+		
+		//匯入圖片
 		for(int P=0;P<2;P++){	for(int j=0;j<3;j++){	for(int i=0;i<3;i++){
 				BreakInGrid[P][j][i].setIcon(new ImageIcon("Picture\\"+ BreakInB[P][j][i].getGrid_Class() + direction[BreakInB[P][j][i].getPlayer()] +".png"));
 	}	}	}	}
@@ -223,11 +223,16 @@ public class Shogi {
 	 * 拿起棋子
 	 */
 	private boolean Pick_up_chess(int Grid_Number){
+		//判斷選取的棋子 是不是 自己的
 		if(CheckerB[(Grid_Number/10)-1][(Grid_Number%10)-1].getChess().getChessPlayer() == Now_Player){
+			//標示紅色外框為選取目標
 			CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].setBackground(java.awt.Color.red);
+			//選取變數(choose) 指向 -> 被選取的棋子
 			choose = CheckerB[(Grid_Number/10)-1][(Grid_Number%10)-1].getChess();
+			//回傳選取成功
 			return true;
 		}
+		//回傳選取失敗
 		return false;
 	}
 	
@@ -235,9 +240,10 @@ public class Shogi {
 	 * 單純移動棋子
 	 */
 	private void Move_chess(int Grid_Number){
-
-		if( "●" == CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].getText()){
-			choose.ResetCanMove(CheckerGrid ,CheckerB );		//擦掉 剛才顯示可以走的地方
+		//判斷欲移動的地方 是否 已被標記為可行走
+		if( CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].getText() == "●" ){
+			//擦掉 剛才顯示可以走的地方
+			choose.ResetCanMove(CheckerGrid ,CheckerB );
 			RiseChange_Chess();	//升變棋子
 			Pick_down_chess(Grid_Number); //放下棋子
 			SwitchPlayer(); //切換玩家
@@ -247,14 +253,20 @@ public class Shogi {
 	 * 棋子放回原位
 	 */
 	private boolean Pick_back_chess(int Grid_Number){
-
+		//判斷欲放回的地方 是否 為原起點
 		if(choose.getPosition() == Grid_Number){
-			choose.ResetCanMove(CheckerGrid ,CheckerB );		//擦掉 剛才顯示可以走的地方
+			//擦掉 剛才顯示可以走的地方
+			choose.ResetCanMove(CheckerGrid ,CheckerB );
+			//將原先標記的被選取點 標記擦除
 			CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].setBackground(java.awt.Color.white);
+			//選取變數(choose) 清除指向 ->null
 			choose = null;
-			
+			//回傳 動作成功
 			return true;
-	} return false;	}
+		} 
+		//回傳 動作失敗
+		return false;	
+	}
 	
 	
 	
@@ -262,22 +274,39 @@ public class Shogi {
 	 * 吃掉敵方棋子
 	 */
 	private boolean Eat_EnemyChess(int Grid_Number){
+		//設變數(ThisGrid_Chess) 為該棋格上之棋子
 		Chess ThisGrid_Chess = CheckerB[(Grid_Number/10)-1][(Grid_Number%10)-1].getChess();
-		if( choose.getChessPlayer() != ThisGrid_Chess.getChessPlayer() 
-		&& 	"●" == CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].getText()){
-			choose.ResetCanMove(CheckerGrid ,CheckerB );		//擦掉 剛才顯示可以走的地方
+		
+		//判斷該棋是否為敵方棋子 && 判斷欲移動的地方 是否 已被標記為可行走
+		if( choose.getChessPlayer() != ThisGrid_Chess.getChessPlayer()
+		&& 	CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].getText() == "●" ){
+			
+			//擦掉 剛才顯示可以走的地方
+			choose.ResetCanMove(CheckerGrid ,CheckerB );
+			//該棋擁有者 改為吃掉者
 			ThisGrid_Chess.setChessPlayer(choose.getChessPlayer());
+			//坐標系清除
 			ThisGrid_Chess.setPosition(0);
+			 //調整為死亡
 			ThisGrid_Chess.Notlive();
+			 //判斷有無升變 並降變
 			ThisGrid_Chess.DeclineChange_Chess();
 			
+			 //將死棋放入 吃掉者之打入盤
 			InputBreakInGrid(ThisGrid_Chess);
 			
+			//嘗試升變自己
 			RiseChange_Chess();
-			Pick_down_chess(Grid_Number); //放下棋子
-			SwitchPlayer(); //切換玩家
+			 //放下棋子
+			Pick_down_chess(Grid_Number);
+			 //切換玩家
+			SwitchPlayer();
+			//回傳 動作成功
 			return true;
-	} return false;	}
+		} 
+		//回傳 動作失敗
+		return false;
+	}
 	
 	/**
 	 * 放下棋子
@@ -285,13 +314,20 @@ public class Shogi {
 	private void Pick_down_chess(int Grid_Number){
 		String direction[]= {" Up"," Down"};
 		
+		//將原先標記的被選取點 標記擦除
 		CheckerGrid[(choose.getPosition()/10)-1][(choose.getPosition()%10)-1].setBackground(java.awt.Color.white);
+		//將原先的棋格清空
 		CheckerB[(choose.getPosition()/10)-1][(choose.getPosition()%10)-1].setChess(null);
+		//將原先的棋格圖示清空
 		CheckerGrid[(choose.getPosition()/10)-1][(choose.getPosition()%10)-1].setIcon(new ImageIcon());
 		
+		//在新的棋格顯示圖示
 		CheckerGrid[(Grid_Number/10)-1][(Grid_Number%10)-1].setIcon(new ImageIcon("Picture\\"+ choose.getChess_Class() + direction[choose.getChessPlayer()] +".png"));
+		//在新的棋格寫入新的 選取變數(choose) 棋子
 		CheckerB[(Grid_Number/10)-1][(Grid_Number%10)-1].setChess(choose);
+		//改變棋子自身計入的座標
 		choose.setPosition(Grid_Number);
+		//選取變數(choose) 清除指向 ->null
 		choose = null;
 	}
 	
@@ -328,19 +364,20 @@ public class Shogi {
 					CheckerGrid[8-j][i].setIcon(new ImageIcon("Picture\\"+ CheckerB[8-j][i].getChess().getChess() + direction[CheckerB[8-j][i].getChess().getChessPlayer()] +".png"));
 		}	}	}
 		*/
-
 	}
+	
 	/**
 	 * 放至打入盤
 	 */
 	private void InputBreakInGrid(Chess ThisGrid_Chess){
 		for(int j=0;j<3;j++) { for(int i=0;i<3;i++) {
+			//找到相同類型的打入盤格
 			if(ThisGrid_Chess.getChess_Class() == BreakInB[ThisGrid_Chess.getChessPlayer()][j][i].getGrid_Class()) {
-				BreakInB[ThisGrid_Chess.getChessPlayer()][j][i].addChess(ThisGrid_Chess);
-				if(BreakInB[ThisGrid_Chess.getChessPlayer()][j][i].getChess_quantity()!=0)
-					BreakInGrid[ThisGrid_Chess.getChessPlayer()][j][i].setEnabled(true);
+				BreakInB[ThisGrid_Chess.getChessPlayer()][j][i].addChess(ThisGrid_Chess); //將死棋放入打入盤格堆疊中
+				if(BreakInB[ThisGrid_Chess.getChessPlayer()][j][i].getChess_quantity()!=0) //如果該打入盤格有>1的旗子
+					BreakInGrid[ThisGrid_Chess.getChessPlayer()][j][i].setEnabled(true); //使按鈕可用
 				else
-					BreakInGrid[ThisGrid_Chess.getChessPlayer()][j][i].setEnabled(false);
+					BreakInGrid[ThisGrid_Chess.getChessPlayer()][j][i].setEnabled(false); //使按鈕停用
 			}
 			
 	}	}	}

@@ -15,27 +15,34 @@ public class Chess {
 		this.ChessPlayer = ChessPlayer;
 	}
 	
+	//得知位置
 	public int getPosition(){
 		return this.Position;
 	}
+	//改變位置
 	public void setPosition(int Position){
 		this.Position = Position;
 	}
 	
+	//復活
 	public void Islive(){
 		this.Live = true;
 	}
+	//死亡
 	public void Notlive(){
 		this.Live = false;
 	}
 	
+	//得知擁有玩家
 	public int getChessPlayer(){
 		return this.ChessPlayer;
 	}
+	//改變擁有玩家
 	public void setChessPlayer(int Player){
 		this.ChessPlayer = Player;
 	}
 	
+	//升變
 	public void RiseChange_Chess(){
 		switch(this.Chess){
 		case "Rook"			  : this.Chess = "Promoted rook" ;  break;
@@ -47,6 +54,7 @@ public class Chess {
 		}
 	}
 	
+	//降變
 	public void DeclineChange_Chess(){
 		switch(this.Chess){
 		case "Promoted rook"  : this.Chess = "Rook" ; 			break;
@@ -58,10 +66,12 @@ public class Chess {
 		}
 	}
 	
+	//得知棋子種類
 	public String getChess_Class(){
 		return this.Chess;
 	}
 	
+	//顯示可以走的地方
 	public void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][]){
 		switch(this.Chess){
 		case "Pawn"			  : Pawn.CanMove(CheckerGrid ,CheckerB ,this) ; 			break;
@@ -85,6 +95,7 @@ public class Chess {
 		}
 	}
 	
+	//擦除已顯示可以走的地方
 	public void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][]){
 		switch(this.Chess){
 		case "Pawn"			  : Pawn.ResetCanMove(CheckerGrid ,CheckerB ,this) ; 			break;
@@ -109,6 +120,7 @@ public class Chess {
 	}
 }
 
+//移動
 class Move{
 	private static int playerN[]= {-1,1};
 	private static int Position;
