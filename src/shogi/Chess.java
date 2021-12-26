@@ -32,6 +32,9 @@ public class Chess {
 	public void Notlive(){
 		this.Live = false;
 	}
+	public boolean Live(){
+		return this.Live;
+	}
 	
 	//得知擁有玩家
 	public int getChessPlayer(){
@@ -72,52 +75,80 @@ public class Chess {
 	}
 	
 	//顯示可以走的地方
-	public void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][]){
+	public void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][]){
 		switch(this.Chess){
-		case "Pawn"			  : Pawn.CanMove(CheckerGrid ,CheckerB ,this) ; 			break;
-		case "Lance"		  : Lance.CanMove(CheckerGrid ,CheckerB ,this) ; 			break;
-		case "Knight"		  : Knight.CanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Silver general" : Silver_general.CanMove(CheckerGrid ,CheckerB ,this) ;	break;
-		case "Gold general"	  : Gold_general.CanMove(CheckerGrid ,CheckerB ,this) ;		break;
+		case "Pawn"			  : Pawn.CanMove(Grid ,Grid_Data ,this) ; 				break;
+		case "Lance"		  : Lance.CanMove(Grid ,Grid_Data ,this) ; 				break;
+		case "Knight"		  : Knight.CanMove(Grid ,Grid_Data ,this) ;				break;
+		case "Silver general" : Silver_general.CanMove(Grid ,Grid_Data ,this) ;		break;
+		case "Gold general"	  : Gold_general.CanMove(Grid ,Grid_Data ,this) ;		break;
 		
-		case "Bishop"		  : Bishop.CanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Rook"			  : Rook.CanMove(CheckerGrid ,CheckerB ,this) ;				break;
+		case "Bishop"		  : Bishop.CanMove(Grid ,Grid_Data ,this) ;				break;
+		case "Rook"			  : Rook.CanMove(Grid ,Grid_Data ,this) ;				break;
 		
-		case "After_king"	  : King.CanMove(CheckerGrid ,CheckerB ,this);				break;
-		case "First_king"	  : King.CanMove(CheckerGrid ,CheckerB ,this);				break;
+		case "After_king"	  : King.CanMove(Grid ,Grid_Data ,this);				break;
+		case "First_king"	  : King.CanMove(Grid ,Grid_Data ,this);				break;
 		
 		case"Promoted silver" : case"Promoted knight" : case"Promoted lance" : case"Promoted pawn" :
-								Gold_general.CanMove(CheckerGrid ,CheckerB ,this); 		break;
-		case "Promoted bishop": King.CanMove(CheckerGrid ,CheckerB ,this);
-								Bishop.CanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Promoted rook"  : King.CanMove(CheckerGrid ,CheckerB ,this); 			
-								Rook.CanMove(CheckerGrid ,CheckerB ,this) ;				break;
+								Gold_general.CanMove(Grid ,Grid_Data ,this); 		break;
+		case "Promoted bishop": King.CanMove(Grid ,Grid_Data ,this);
+								Bishop.CanMove(Grid ,Grid_Data ,this) ;				break;
+		case "Promoted rook"  : King.CanMove(Grid ,Grid_Data ,this); 			
+								Rook.CanMove(Grid ,Grid_Data ,this) ;				break;
 		}
 	}
 	
 	//擦除已顯示可以走的地方
-	public void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][]){
+	public void EraseCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][]){
 		switch(this.Chess){
-		case "Pawn"			  : Pawn.ResetCanMove(CheckerGrid ,CheckerB ,this) ; 			break;
-		case "Lance"		  : Lance.ResetCanMove(CheckerGrid ,CheckerB ,this) ; 			break;
-		case "Knight"		  : Knight.ResetCanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Silver general" : Silver_general.ResetCanMove(CheckerGrid ,CheckerB ,this);	break;
-		case "Gold general"	  : Gold_general.ResetCanMove(CheckerGrid ,CheckerB ,this);		break;
+		case "Pawn"			  : Pawn.ResetCanMove(Grid ,Grid_Data ,this) ; 			break;
+		case "Lance"		  : Lance.ResetCanMove(Grid ,Grid_Data ,this) ; 		break;
+		case "Knight"		  : Knight.ResetCanMove(Grid ,Grid_Data ,this) ;		break;
+		case "Silver general" : Silver_general.ResetCanMove(Grid ,Grid_Data ,this);	break;
+		case "Gold general"	  : Gold_general.ResetCanMove(Grid ,Grid_Data ,this);	break;
 		
-		case "Bishop"		  : Bishop.ResetCanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Rook"			  : Rook.ResetCanMove(CheckerGrid ,CheckerB ,this) ;			break;
+		case "Bishop"		  : Bishop.ResetCanMove(Grid ,Grid_Data ,this) ;		break;
+		case "Rook"			  : Rook.ResetCanMove(Grid ,Grid_Data ,this) ;			break;
 		
-		case "After_king"	  : King.ResetCanMove(CheckerGrid ,CheckerB ,this);				break;
-		case "First_king"	  : King.ResetCanMove(CheckerGrid ,CheckerB ,this);				break;
+		case "After_king"	  : King.ResetCanMove(Grid ,Grid_Data ,this);			break;
+		case "First_king"	  : King.ResetCanMove(Grid ,Grid_Data ,this);			break;
 		
 		case"Promoted silver" : case"Promoted knight" : case"Promoted lance" : case"Promoted pawn" :
-								Gold_general.ResetCanMove(CheckerGrid ,CheckerB ,this); 	break;
-		case "Promoted bishop": King.ResetCanMove(CheckerGrid ,CheckerB ,this);
-								Bishop.ResetCanMove(CheckerGrid ,CheckerB ,this) ;			break;
-		case "Promoted rook"  : King.ResetCanMove(CheckerGrid ,CheckerB ,this); 			
-								Rook.ResetCanMove(CheckerGrid ,CheckerB ,this) ;			break;
+								Gold_general.ResetCanMove(Grid ,Grid_Data ,this); 	break;
+		case "Promoted bishop": King.ResetCanMove(Grid ,Grid_Data ,this);
+								Bishop.ResetCanMove(Grid ,Grid_Data ,this) ;		break;
+		case "Promoted rook"  : King.ResetCanMove(Grid ,Grid_Data ,this); 			
+								Rook.ResetCanMove(Grid ,Grid_Data ,this) ;			break;
 		}
 	}
+	
+	//顯示可以走的地方	//打入
+	public void CanMove_BreakIn (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess EnemyKing){
+		for(int j=0;j<9;j++) {for(int i=0;i<9;i++) {
+			if(Grid_Data[j][i].getChess()==null && Grid[j][i].getText()=="") 
+				Grid[j][i].setText("●");
+		}	}
+		switch(this.Chess){
+		case "Pawn"			  : Pawn.ResetCanMove(Grid ,Grid_Data ,EnemyKing) ; 		break;
+		case "Lance"		  : Lance.ResetCanMove(Grid ,Grid_Data ,EnemyKing) ; 		break;
+		case "Knight"		  : Knight.ResetCanMove(Grid ,Grid_Data ,EnemyKing) ;		break;
+		case "Silver general" : Silver_general.ResetCanMove(Grid ,Grid_Data ,EnemyKing);break;
+		case "Gold general"	  : Gold_general.ResetCanMove(Grid ,Grid_Data ,EnemyKing);	break;
+			
+		case "Bishop"		  : Bishop.ResetCanMove(Grid ,Grid_Data ,EnemyKing) ;		break;
+		case "Rook"			  : Rook.ResetCanMove(Grid ,Grid_Data ,EnemyKing) ;			break;
+		}
+	}
+	
+	//擦除已顯示可以走的地方 //打入
+	public void EraseCanMove_BreakIn (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][]){
+		for(int j=0;j<9;j++) {for(int i=0;i<9;i++) {
+			if(Grid[j][i].getText()=="●") Grid[j][i].setText("");
+	}	}	}
+	
+	
+	
+	
 }
 
 //移動
@@ -125,20 +156,20 @@ class Move{
 	private static int playerN[]= {-1,1};
 	private static int Position;
 	
-	public static boolean Show_MovingPoint (String T ,JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess ,int MoveY,int MoveX) {
+	public static boolean Set_MovingPoint (String T ,JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess ,int MoveY,int MoveX) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
 		int Direction = playerN[player];
-		int PositionY = Position/10-1+(Direction*MoveY);
-		int PositionX = Position%10-1+MoveX;
+		int PositionY = Position/10+(Direction*MoveY);
+		int PositionX = Position%10+MoveX;
 		
 		//ActionListener
-		if(	CheckerB[PositionY][PositionX].getChess() == null
-		||	CheckerB[PositionY][PositionX].getChess().getChessPlayer()!=player) {
-			CheckerGrid[PositionY][PositionX].setText(T);
+		if(	Grid_Data[PositionY][PositionX].getChess() == null
+		||	Grid_Data[PositionY][PositionX].getChess().getChessPlayer()!=player) {
+			Grid[PositionY][PositionX].setText(T);
 			
-			if(	CheckerB[PositionY][PositionX].getChess() != null
-			&&	CheckerB[PositionY][PositionX].getChess().getChessPlayer()!=player)
+			if(	Grid_Data[PositionY][PositionX].getChess() != null
+			&&	Grid_Data[PositionY][PositionX].getChess().getChessPlayer()!=player)
 				return false; 
 		}else	return false;
 		 		return true ;
@@ -148,48 +179,49 @@ class Move{
 class Pawn{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,1,0);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,1,0);
 	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,1,0);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,1,0);
 	}
 }
 
 class Lance{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
-		//ActionListener
 		for(int i=1;;i++)
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;
 	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int i=1;;i++)
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;
 	}
 }
@@ -197,174 +229,179 @@ class Lance{
 class Knight{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<8 && PositionX>-1)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,2,1);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,2,1);
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,2,-1);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,2,-1);
 	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<8 && PositionX>-1)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,2,1);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,2,1);
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,2,-1);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,2,-1);
 	}
 }
 
 class Silver_general{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2!= PositionX)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2!= PositionX)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
 }
 
 class Gold_general{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*0<9 && PositionY+playerN[player]*0>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 !=PositionX)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,0,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,0,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 ==PositionX)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*0<9 && PositionY+playerN[player]*0>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 !=PositionX)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,0,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,0,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 ==PositionX)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
 }
 
 class King{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*0<9 && PositionY+playerN[player]*0>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 !=PositionX)
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,0,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,0,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 )
-			Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int i=1;i<=3;i++) {
 		if(PositionY+playerN[player]<9 && PositionY+playerN[player]>-1 && PositionX+i-2<9 && PositionX+i-2>-1)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,1,i-2);
 		if(PositionY+playerN[player]*0<9 && PositionY+playerN[player]*0>-1 && PositionX+i-2<9 && PositionX+i-2>-1 && PositionX-i+2 !=PositionX)
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,0,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,0,i-2);
 		if(PositionY+playerN[player]*-1<9 && PositionY+playerN[player]*-1>-1 && PositionX+i-2<9 && PositionX+i-2>-1 )
-			Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,-1,i-2);
+			Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,-1,i-2);
 	}	}
 }
 
 class Rook{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		//ActionListener
 		for(int i=1;;i++) {
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;}
 		
 		for(int i=1;;i++) {
 		if(PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,0,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,0,i)) break;}
 		else	break;}
 		
 		for(int i=-1;;i--) {
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;}
 		
 		for(int i=-1;;i--) {
 		if(PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,0,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,0,i)) break;}
 		else	break;}
 	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int i=1;;i++) {
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;}
 		
 		for(int i=1;;i++) {
 		if(PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,0,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,0,i)) break;}
 		else	break;}
 		
 		for(int i=-1;;i--) {
 		if(PositionY+(playerN[player]*i)<9 && PositionY+(playerN[player]*i)>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,i,0)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,i,0)) break;}
 		else	break;}
 		
 		for(int i=-1;;i--) {
 		if(PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,0,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,0,i)) break;}
 		else	break;}
 	}
 }
@@ -372,56 +409,57 @@ class Rook{
 class Bishop{
 	private static int playerN[]= {-1,1};
 	private static int Position;
-	public static void CanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void CanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
 		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		//ActionListener
 		for(int j=1,i=1;;j++,i++) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=-1,i=1;;j--,i++) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=1,i=-1;;j++,i--) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=-1,i=-1;;j--,i--) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("●",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("●",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 	}
-	public static void ResetCanMove (JButton CheckerGrid[][] ,CheckerGrid_Data CheckerB[][] ,Chess TChess) {
+	public static void ResetCanMove (JButton Grid[][] ,CheckerGrid_Data Grid_Data[][] ,Chess TChess) {
+		Position = TChess.getPosition();
 		int player = TChess.getChessPlayer();
-		int PositionY = Position/10-1;
-		int PositionX = Position%10-1;
+		int PositionY = Position/10;
+		int PositionX = Position%10;
 		
 		for(int j=1,i=1;;j++,i++) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=-1,i=1;;j--,i++) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=1,i=-1;;j++,i--) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 		
 		for(int j=-1,i=-1;;j--,i--) {
 		if(PositionY+(playerN[player]*j)<9 && PositionY+(playerN[player]*j)>-1 && PositionX+i<9 && PositionX+i>-1) {
-			if(!Move.Show_MovingPoint("",CheckerGrid ,CheckerB ,TChess ,j,i)) break;}
+			if(!Move.Set_MovingPoint("",Grid ,Grid_Data ,TChess ,j,i)) break;}
 		else	break;}
 	}
 }

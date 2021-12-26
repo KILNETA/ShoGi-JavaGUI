@@ -5,14 +5,20 @@ import java.util.Stack;
 
 public abstract class BreakIn_Data implements ActionListener {
 	
+	private int Grid_Id = 0 ;
 	private String Grid_ChessName = null; //格子的格子屬性
 	private int GridPlayer; //所屬玩家
-	Stack<Chess> Chessman = new Stack<Chess>() ; //在該格的棋子
+	private Stack<Chess> Chessman = new Stack<Chess>() ; //在該格的棋子
 	
 	//建構者
-	public BreakIn_Data(String Grid_ChessName ,int GridPlayer){
+	public BreakIn_Data(String Grid_ChessName ,int GridPlayer ,int Grid_Id){
 		this.Grid_ChessName = Grid_ChessName;
 		this.GridPlayer = GridPlayer;
+		this.Grid_Id = Grid_Id ;
+	}
+	
+	public int getGrid_Id(){
+		return this.Grid_Id;
 	}
 	
 	//得知擁有玩家
