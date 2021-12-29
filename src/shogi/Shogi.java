@@ -27,8 +27,8 @@ public class Shogi {
 	//打入盤上的3x3個棋盤格 (各兩個)
 	public static BreakIn BreakInGrid[][][] = new BreakIn[2][3][3];
 	
-	public static JButton SeekPeace[] = new JButton[2];
-	public static JButton RiseChange[] = new JButton[2];
+	public static SeekPeace SeekPeace[] = new SeekPeace[2];
+	public static RiseChange RiseChange[] = new RiseChange[2];
 	
 	public static JLabel After = new JLabel();
 	public static JLabel First = new JLabel();
@@ -139,28 +139,16 @@ public class Shogi {
 	
 	//求和
 	private void Create_SeekPeace() {
-		for(int i=0;i<2;i++)
-		{
-			SeekPeace[i] = new JButton();//新建按鈕
-			SeekPeace[i].setText("求和");
-			SeekPeace[i].setForeground(Color.RED);
-			SeekPeace[i].setBackground(Color.RED);
-			SeekPeace[i].setFont(new Font("標楷體", Font.BOLD, 14));
-			SeekPeace[i].setBounds(10+(945*i), 315+(125*i), 65, 25);
-			SeekPeace[i].setFocusPainted(false);//去除聚焦線
+		for(int i=0;i<2;i++){
+			SeekPeace[i] = new SeekPeace(i);//新建按鈕
 			Shogi_frame.getContentPane().add(SeekPeace[i]);
 		}
 	}
 	
 	//升變
 	private void Create_RiseChange() {
-		for(int i=0;i<2;i++)
-		{
-			RiseChange[i] = new JButton();//新建按鈕
-			RiseChange[i].setText("升變");
-			RiseChange[i].setFont(new Font("標楷體", Font.BOLD, 14));
-			RiseChange[i].setBounds(80+(742*i), 315+(125*i), 128, 25);
-			RiseChange[i].setFocusPainted(false);//去除聚焦線
+		for(int i=0;i<2;i++){
+			RiseChange[i] = new RiseChange(i);//新建按鈕
 			Shogi_frame.getContentPane().add(RiseChange[i]);
 		}
 	}

@@ -44,6 +44,33 @@ public class Chess {
 		this.ChessPlayer = Player;
 	}
 	
+	//回復可以升變的棋種
+	public boolean CanRiseChange() {
+		switch(this.Chess){
+		case"Rook": case"Bishop": case"Silver general": case"Knight": case"Lance": case"Pawn":
+			return true;
+		}
+		return false;
+	}
+	
+	//回復可以升變的棋種
+	public boolean EnforceRiseChange() {
+		if(this.Chess=="Pawn" && this.ChessPlayer==0 && this.Position/10<1
+		|| this.Chess=="Pawn" && this.ChessPlayer==1 && this.Position/10>7) 
+			return true;
+		
+		if(this.Chess=="Lance" && this.ChessPlayer==0 && this.Position/10<1
+		|| this.Chess=="Lance" && this.ChessPlayer==1 && this.Position/10>7) 
+			return true;
+		
+		if(this.Chess=="Knight" && this.ChessPlayer==0 && this.Position/10<2
+		|| this.Chess=="Knight" && this.ChessPlayer==1 && this.Position/10>6) 
+			return true;
+		
+		
+		return false;
+	}
+	
 	//升變
 	public void RiseChange_Chess(){
 		switch(this.Chess){
@@ -129,14 +156,17 @@ public class Chess {
 		}	}
 		switch(this.Chess){
 		case "Pawn"			  : Pawn.ResetCanMove(Grid ,EnemyKing) ;
-								Pawn.BreakInDontMove(Grid ,this) ; 			break;
-		case "Lance"		  : Lance.ResetCanMove(Grid ,EnemyKing) ; 		break;
-		case "Knight"		  : Knight.ResetCanMove(Grid ,EnemyKing) ;		break;
+								Pawn.BreakInDontMove(Grid ,this) ;
+								Pawn.BreakInDontMove_InBottom(Grid ,this) ;	break;
+		case "Lance"		  : Lance.ResetCanMove(Grid ,EnemyKing) ;
+								Lance.BreakInDontMove_InBottom(Grid ,this) ;break;
+		case "Knight"		  : Knight.ResetCanMove(Grid ,EnemyKing) ;
+								Knight.BreakInDontMove_InBottom(Grid ,this) ;break;
 		case "Silver general" : Silver_general.ResetCanMove(Grid ,EnemyKing);break;
 		case "Gold general"	  : Gold_general.ResetCanMove(Grid ,EnemyKing);	break;
 			
 		case "Bishop"		  : Bishop.ResetCanMove(Grid ,EnemyKing) ;		break;
-		case "Rook"			  : Rook.ResetCanMove(Grid ,EnemyKing) ;			break;
+		case "Rook"			  : Rook.ResetCanMove(Grid ,EnemyKing) ;		break;
 		}
 	}
 	
@@ -206,7 +236,14 @@ class Pawn{
 				for(int y=0;y<9;y++)
 					Grid[y][i].setText("");
 				break;
-	}	}	}	}	}
+	}	}	}	}
+	public static void BreakInDontMove_InBottom (Checker Grid[][] ,Chess TChess) {
+		int player = TChess.getChessPlayer();
+		int Bottom[] = {0,8};
+		for(int x=0;x<9;x++)
+			Grid[Bottom[player]][x].setText("");
+				
+}	}	
 
 class Lance{
 	private static int playerN[]= {-1,1};
@@ -233,7 +270,13 @@ class Lance{
 			if(!Move.Set_MovingPoint("",Grid ,TChess ,i,0)) break;}
 		else	break;
 	}
-}
+	public static void BreakInDontMove_InBottom (Checker Grid[][] ,Chess TChess) {
+		int player = TChess.getChessPlayer();
+		int Bottom[] = {0,8};
+		for(int x=0;x<9;x++)
+			Grid[Bottom[player]][x].setText("");
+				
+}	}
 
 class Knight{
 	private static int playerN[]= {-1,1};
@@ -260,7 +303,13 @@ class Knight{
 		if(PositionY+playerN[player]*2<9 && PositionY+playerN[player]*2>-1 && PositionX<9 && PositionX>0)
 			Move.Set_MovingPoint("",Grid ,TChess ,2,-1);
 	}
-}
+	public static void BreakInDontMove_InBottom (Checker Grid[][] ,Chess TChess) {
+		int player = TChess.getChessPlayer();
+		int Bottom[] = {0,1,7,8};
+		for(int x=0;x<9;x++) {
+			Grid[Bottom[2*player]][x].setText("");
+			Grid[Bottom[2*player+1]][x].setText("");	
+}	}	}
 
 class Silver_general{
 	private static int playerN[]= {-1,1};

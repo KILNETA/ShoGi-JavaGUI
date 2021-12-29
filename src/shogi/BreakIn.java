@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
+
 import javax.swing.JButton;
 
 public class BreakIn  extends JButton {
@@ -96,9 +97,9 @@ public class BreakIn  extends JButton {
 	
 	
 	private void Grid_MarkUp(JButton Grid){//標記格子
-		Grid.setBackground(java.awt.Color.red);//被選取點 標記
+		Grid.setBackground(Color.red);//被選取點 標記
 	}
 	private void Grid_MarkErase(JButton Grid){//擦除標記
-		Grid.setBackground(java.awt.Color.white);//被選取點 標記擦除
+		Grid.setBackground(Color.white);//被選取點 標記擦除
 	}
 }

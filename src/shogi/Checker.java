@@ -3,8 +3,8 @@ package shogi;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 
 public class Checker extends JButton {
@@ -25,8 +25,10 @@ public class Checker extends JButton {
 			public void actionPerformed(ActionEvent e) {
 /*該格含有棋子*/if(getChess()!=null )
 /*未選取棋子*/		if(Shogi.choose == null ) {
-						if( Pick_up_chess(this) ) 			//拿起棋子
-						Shogi.choose.CanMove(Shogi.CheckerGrid); 		//顯示可以走的地方
+						if( Pick_up_chess(this) ) { 				//拿起棋子
+							Button_RiseChess_Try();					//嘗試啟用升變功能
+							Shogi.choose.CanMove(Shogi.CheckerGrid);//顯示可以走的地方
+						}
 					}
 /*已選取棋子*/		else {
 						if(Pick_back_chess(this)); 		//判斷 + 棋子放回原位
@@ -77,7 +79,7 @@ public class Checker extends JButton {
 	//------------------------------Function------------------------------//
 		if( ThisGrid.getText() == "●" && Shogi.choose.Live() ){//判斷欲移動的地方 是否 已被標記為可行走
 			Shogi.choose.EraseCanMove(Shogi.CheckerGrid);//擦掉 剛才顯示可以走的地方
-			RiseChange_Chess();	//升變棋子
+			RiseChess_Try();
 			Pick_down_chess(actionListener); //放下棋子
 			SwitchPlayer(); //切換玩家
 		}
@@ -105,6 +107,7 @@ public class Checker extends JButton {
 		if(Shogi.choose.getPosition() == this.getGrid_Id()){//判斷欲放回的地方 是否 為原起點
 			Shogi.choose.EraseCanMove(Shogi.CheckerGrid);//擦掉 剛才顯示可以走的地方
 			Grid_MarkErase(ThisGrid);//將原先標記的被選取點 標記擦除
+			Button_RiseChess_lose();
 			Shogi.choose = null;//選取變數(choose) 清除指向 ->null
 			return true;//回傳 動作成功
 		} 
@@ -127,8 +130,7 @@ public class Checker extends JButton {
 			ThisGrid_Chess.DeclineChange_Chess();//判斷有無升變 並降變
 						
 			InputBreakInGrid(ThisGrid_Chess);//將死棋放入 吃掉者之打入盤
-						
-			RiseChange_Chess();//嘗試升變自己
+			RiseChess_Try();
 			Pick_down_chess(actionListener);//放下棋子
 			SwitchPlayer();//切換玩家
 						
@@ -151,21 +153,48 @@ public class Checker extends JButton {
 		}
 		else
 			Shogi.choose.Islive();//復活
-					
+		
+		Shogi.choose.setPosition(this.getGrid_Id());//改變棋子自身計入的座標
+		EnforceRiseChess();
+		
 		Grid_SetIcon(ThisGrid,"Picture\\"+ Shogi.choose.getChess_Class() + direction[Shogi.choose.getChessPlayer()] +".png");//在新的棋格顯示圖示
 		ThisGrid.setChess(Shogi.choose);//在新的棋格寫入新的 選取變數(choose) 棋子
-					
-		Shogi.choose.setPosition(this.getGrid_Id());//改變棋子自身計入的座標
+		
 		Shogi.choose = null;//選取變數(choose) 清除指向 ->null
 	}
 				
-	// 升變棋子
-	private void RiseChange_Chess(){
+	// 升變棋子按鈕啟用
+	private void Button_RiseChess_Try(){
 		int Choose_Y = Shogi.choose.getPosition()/10;
 		int Choose_Player = Shogi.choose.getChessPlayer();
 	//------------------------------Function------------------------------//
-		if(Choose_Player==0 && Choose_Y<=2 && Choose_Y>=0) Shogi.choose.RiseChange_Chess();
-		if(Choose_Player==1 && Choose_Y<=8 && Choose_Y>=6) Shogi.choose.RiseChange_Chess();
+		if(Shogi.choose.CanRiseChange())
+		if(Choose_Player==0 && Choose_Y<=2 && Choose_Y>=0
+		|| Choose_Player==1 && Choose_Y<=8 && Choose_Y>=6) 
+			Shogi.RiseChange[Choose_Player].RiseCanUse();
+	}
+	
+	// 升變棋子按鈕停用
+	private void Button_RiseChess_lose(){
+		int Choose_Player = Shogi.choose.getChessPlayer();
+	//------------------------------Function------------------------------//
+		Shogi.RiseChange[Choose_Player].RiseCntUse();
+		Shogi.RiseChange[Choose_Player].NoUseRise();
+	}
+		
+	//如果已點選升變 則升變
+	private void RiseChess_Try(){
+		int Choose_Player = Shogi.choose.getChessPlayer();
+	//------------------------------Function------------------------------//
+		if(Shogi.RiseChange[Choose_Player].UseRise())
+			Shogi.choose.RiseChange_Chess();
+		Shogi.RiseChange[Choose_Player].RiseCntUse();
+		Shogi.RiseChange[Choose_Player].NoUseRise();
+	}
+	
+	private void EnforceRiseChess(){
+		if(Shogi.choose.EnforceRiseChange())
+			Shogi.choose.RiseChange_Chess();
 	}
 				
 	// 切換玩家
