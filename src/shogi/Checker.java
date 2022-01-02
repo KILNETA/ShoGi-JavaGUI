@@ -9,11 +9,20 @@ import javax.swing.JButton;
 
 public class Checker extends JButton {
 	
+	
+/*-------------------------Variable-------------------------*/
+	
+	
+	private Shogi Main_frame;
 	private int Grid_Id = 0; //格子的編號
 	private Chess Chessman = null; //在該格的棋子
+
+
+/*-------------------------Function-------------------------*/
 	
-	//建構者
-	public Checker(int i){
+	// 建構者
+	public Checker(Shogi Main_frame,int i){
+		this.Main_frame = Main_frame;
 		this.Grid_Id = i;
 		
 		new JButton();//新建按鈕
@@ -41,17 +50,17 @@ public class Checker extends JButton {
 		setBounds(746-(66*(i%10)), 30+(80*(i/10)), 66, 80);//按鈕位置&大小
 	}
 	
-	//回傳 格子編號
+	// 回傳 格子編號
 	public int getGrid_Id(){
 		return this.Grid_Id;
 	}
 	
-	//回傳 棋子
+	// 回傳 棋子
 	public Chess getChess(){
 		return this.Chessman;
 	}
 	
-	//改變 棋子
+	// 改變 棋子
 	public void setChess(Chess Chessman){
 		this.Chessman = Chessman;
 	}
@@ -124,6 +133,7 @@ public class Checker extends JButton {
 		if( Choose_Player != ThisGrid_Chess.getChessPlayer()	&& 	ThisGrid.getText() == "●" ){
 						
 			Shogi.choose.EraseCanMove(Shogi.CheckerGrid);//擦掉 剛才顯示可以走的地方
+			if_isKingDied(ThisGrid_Chess);//如果是王死了
 			ThisGrid_Chess.setChessPlayer(Choose_Player);//該棋擁有者 改為吃掉者
 			ThisGrid_Chess.setPosition(0);//坐標系清除
 			ThisGrid_Chess.Notlive();//調整為死亡
@@ -182,7 +192,7 @@ public class Checker extends JButton {
 		Shogi.RiseChange[Choose_Player].NoUseRise();
 	}
 		
-	//如果已點選升變 則升變
+	// 如果已點選升變 則升變
 	private void RiseChess_Try(){
 		int Choose_Player = Shogi.choose.getChessPlayer();
 	//------------------------------Function------------------------------//
@@ -192,6 +202,7 @@ public class Checker extends JButton {
 		Shogi.RiseChange[Choose_Player].NoUseRise();
 	}
 	
+	// 強制執行升變
 	private void EnforceRiseChess(){
 		if(Shogi.choose.EnforceRiseChange())
 			Shogi.choose.RiseChange_Chess();
@@ -199,9 +210,8 @@ public class Checker extends JButton {
 				
 	// 切換玩家
 	private void SwitchPlayer(){
-		Shogi.Now_Player = Shogi.Now_Player==1?0:1;
-		Shogi.First.setForeground(Color.red);
-		if(Shogi.Now_Player==1){
+		Shogi.Now_Player = Shogi.Now_Player==0?1:0;
+		if(Shogi.Now_Player==0){
 			Shogi.After.setForeground(Color.black);
 			Shogi.First.setForeground(Color.red);
 		}else {
@@ -222,6 +232,13 @@ public class Checker extends JButton {
 				BreakInGrid_TryEnable(BreakIn);
 	}	}	}	}
 				
+	// 如果是王死了
+	private void if_isKingDied(Chess ThisGrid_Chess) {
+		if(ThisGrid_Chess.getChess_Class()=="After_king")
+			Main_frame.Create_GameOver(0);
+		if(ThisGrid_Chess.getChess_Class()=="First_king")	
+			Main_frame.Create_GameOver(1);
+	}
 				
 	private void Grid_MarkUp(Checker Grid){//標記格子
 		Grid.setBackground(java.awt.Color.red);//被選取點 標記
@@ -239,4 +256,11 @@ public class Checker extends JButton {
 		ImageIcon Icon = new ImageIcon(link);
 		Grid.setIcon(Icon);
 	}
+	public void Reset(){ //重置棋格
+		Chessman = null;
+		Grid_SetIcon(this ,"");
+	}
+
+
+
 }

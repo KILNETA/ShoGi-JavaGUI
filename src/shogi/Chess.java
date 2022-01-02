@@ -3,10 +3,18 @@ package shogi;
 
 public class Chess {
 	
+	
+/*-------------------------Variable-------------------------*/
+	
+	
 	private int Position = 0;
 	private String Chess = null; //棋子種類
 	private int ChessPlayer; //所屬玩家
 	private boolean Live = true; //存活
+
+	
+	
+/*-------------------------Function-------------------------*/
 	
 	//建構者
 	public Chess(String Chess,int ChessPlayer){
@@ -44,7 +52,7 @@ public class Chess {
 		this.ChessPlayer = Player;
 	}
 	
-	//回復可以升變的棋種
+	//回覆可以升變的棋種
 	public boolean CanRiseChange() {
 		switch(this.Chess){
 		case"Rook": case"Bishop": case"Silver general": case"Knight": case"Lance": case"Pawn":
@@ -53,7 +61,7 @@ public class Chess {
 		return false;
 	}
 	
-	//回復可以升變的棋種
+	//回覆強制升變的棋種
 	public boolean EnforceRiseChange() {
 		if(this.Chess=="Pawn" && this.ChessPlayer==0 && this.Position/10<1
 		|| this.Chess=="Pawn" && this.ChessPlayer==1 && this.Position/10>7) 

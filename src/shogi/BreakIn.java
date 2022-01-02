@@ -9,10 +9,17 @@ import javax.swing.JButton;
 
 public class BreakIn  extends JButton {
 	
+	
+/*-------------------------Variable-------------------------*/
+	
+	
 	private int Grid_Id = 0 ;
 	private String Grid_ChessName = null; //格子的格子屬性
 	private int GridPlayer; //所屬玩家
 	private Stack<Chess> Chessman = new Stack<Chess>() ; //在該格的棋子
+
+
+/*-------------------------Function-------------------------*/
 	
 	//建構者
 	public BreakIn(String Grid_ChessName ,int GridPlayer ,int Grid_Id){
@@ -92,8 +99,7 @@ public class BreakIn  extends JButton {
 			Grid_MarkErase(ThisGrid);//將原先標記的被選取點 標記擦除
 			this.addChess(Shogi.choose);
 			Shogi.choose = null;
-		}
-	}
+	}	}
 	
 	
 	private void Grid_MarkUp(JButton Grid){//標記格子
@@ -101,5 +107,8 @@ public class BreakIn  extends JButton {
 	}
 	private void Grid_MarkErase(JButton Grid){//擦除標記
 		Grid.setBackground(Color.white);//被選取點 標記擦除
+	}
+	public void Reset(){//重置棋格
+		Chessman.clear();
 	}
 }

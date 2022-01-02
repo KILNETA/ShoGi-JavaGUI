@@ -39,11 +39,12 @@ public class Shogi {
 
 
 /*-------------------------Function-------------------------*/
+	
+	public JFrame getFrame() {//給予主視窗變數
+		return Shogi_frame;
+	}
 
-
-	/**
-	 * 啟動應用程序。
-	 */
+	//啟動應用程序。
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -56,16 +57,12 @@ public class Shogi {
 					e.printStackTrace();
 	}	}	});	}
 
-	/**
-	 * 創建應用程序。
-	 */
+	//創建應用程序。
 	public Shogi() {
 		initialize();
 	}
 
-	/**
-	 * 初始化框架的內容。
-	 */
+	//初始化框架的內容。
 	private void initialize() {
 		Shogi_frame = new JFrame();//創立主畫面
 		Shogi_frame.setResizable(false);//調整窗口大小(停用)
@@ -75,6 +72,7 @@ public class Shogi {
 		Shogi_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//畫面大小
 		Shogi_frame.getContentPane().setLayout(null);//獲取內容窗格 &　設置佈局
 		Shogi_frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\40491\\eclipse-workspace\\ShoGi-JavaGUI\\Picture\\ShoGi.png"));//應用程式縮圖
+		Shogi_frame.setLocationRelativeTo(null);
 		
 		Create_Chessboard();
 		Create_BreakInboard();
@@ -86,18 +84,18 @@ public class Shogi {
 		panel_2.setBounds(822, 510, 198, 240);
 		Shogi_frame.getContentPane().add(panel_2);
 		
-		After = new JLabel("\u25B2\u5148\u624B\u2500\u2500\u2500\u2500\u2500\u2500");
+		After = new JLabel("\u2500\u2500\u2500\u2500\u2500\u2500\u5F8C\u624B\u25BD");
 		After.setFont(new Font("標楷體", Font.BOLD, 20));
-		After.setHorizontalAlignment(SwingConstants.LEFT);
-		After.setBounds(822, 475, 198, 25);
+		After.setHorizontalAlignment(SwingConstants.RIGHT);
+		After.setBounds(10, 280, 198, 25);
 		Shogi_frame.getContentPane().add(After);
-		After.setForeground(Color.red);
 		
-		First = new JLabel("\u2500\u2500\u2500\u2500\u2500\u2500\u5F8C\u624B\u25BD");
-		First.setHorizontalAlignment(SwingConstants.RIGHT);
+		First = new JLabel("\u25B2\u5148\u624B\u2500\u2500\u2500\u2500\u2500\u2500");
+		First.setHorizontalAlignment(SwingConstants.LEFT);
 		First.setFont(new Font("標楷體", Font.BOLD, 20));
-		First.setBounds(10, 280, 198, 25);
+		First.setBounds(822, 475, 198, 25);
 		Shogi_frame.getContentPane().add(First);
+		First.setForeground(Color.red);
 		
 		//標記棋盤 (編輯器用)	----------------------------//
 		JPanel panel = new JPanel();				//
@@ -110,12 +108,10 @@ public class Shogi {
 		//標記棋盤 (編輯器用)	----------------------------//
 	}
 	
-	
-	
 	//布置9x9棋盤格
 	private void Create_Chessboard(){
 		for(int j=0;j<9;j++) {for(int i=0;i<9;i++) {
-			CheckerGrid[j][i]=new Checker(j*10+i);
+			CheckerGrid[j][i]=new Checker(this,j*10+i);
 			Shogi_frame.getContentPane().add(CheckerGrid[j][i]);//於畫面上顯示按鈕
 		}	}
 		//初始化玩家棋子
@@ -137,15 +133,15 @@ public class Shogi {
 		initialize_BreakInGrid();
 	}
 	
-	//求和
+	//布置求和按鈕
 	private void Create_SeekPeace() {
 		for(int i=0;i<2;i++){
-			SeekPeace[i] = new SeekPeace(i);//新建按鈕
+			SeekPeace[i] = new SeekPeace(this,i);//新建按鈕
 			Shogi_frame.getContentPane().add(SeekPeace[i]);
 		}
 	}
 	
-	//升變
+	//布置升變按鈕
 	private void Create_RiseChange() {
 		for(int i=0;i<2;i++){
 			RiseChange[i] = new RiseChange(i);//新建按鈕
@@ -156,7 +152,7 @@ public class Shogi {
 	// 初始化玩家棋子
 	private void initialize_PlayerChess()
 	{
-		String Chess[]= {"After_king","Rook","Bishop","Gold general","Silver general","Knight","Lance","Pawn","First_king"};
+		String Chess[]= {"First_king","Rook","Bishop","Gold general","Silver general","Knight","Lance","Pawn","After_king"};
 		PlayerChess[4]=new Chess(Chess[0],0);
 		PlayerChess[24]=new Chess(Chess[8],1);
 		
@@ -206,4 +202,32 @@ public class Shogi {
 		ImageIcon Icon = new ImageIcon(link);
 		Grid.setIcon(Icon);
 	}
+	
+	public void Create_GameOver(int whoWin) {//創建遊戲結束介面
+		GameOver GameOver = new GameOver(this,whoWin);
+	}
+	public void Reset_allChecker() {//重設棋盤
+		Now_Player = 0;
+		Shogi.After.setForeground(Color.red);
+		Shogi.First.setForeground(Color.black);
+		
+		for(int p=0;p<2;p++) {for(int y=0;y<3;y++) {for(int x=0;x<3;x++) {
+			BreakInGrid[p][y][x].Reset();
+		}	}	}
+		for(int y=0;y<9;y++) {for(int x=0;x<9;x++) {
+			Shogi.CheckerGrid[y][x].Reset();
+		}	}
+		//初始化玩家棋子
+		initialize_PlayerChess();
+		//初始化棋子擺放
+		initialize_CheckerChess();
+		// 初始化打入盤擺放
+		initialize_BreakInGrid();
+		
+		for(int p=0;p<2;p++) {
+			SeekPeace[p].Reset();
+		}
+		
+	}
+	
 }
