@@ -142,8 +142,8 @@ public class Login extends JFrame  {
 			            
 			        while (	line != null	) {
 			        	line = br.readLine(); // 一次讀入一行資料
-			               	
-			            if(	line!=null && has_SameAccountSecret(line ,password) ) {
+			        	
+			            if(	line!=null && has_SameUser(line) ) {
 			            	Point_Text.setText(textField.getText()+" 此帳戶已被註冊");	
 			                return;
 			    }   }	}
@@ -249,6 +249,15 @@ public class Login extends JFrame  {
         if(splitted[0].compareTo(textField.getText())==0 && splitted[1].compareTo(password)==0){
         	return true;
         }
+		return false;
+	}
+	
+	//搜尋表單有無相同用戶名
+	private boolean has_SameUser(String line){
+		String[] splitted = line.split(" ");       
+	    if(splitted[0].compareTo(textField.getText())==0){
+	        return true;
+	    }
 		return false;
 	}
 

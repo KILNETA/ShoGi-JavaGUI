@@ -208,8 +208,8 @@ public class Shogi {
 	}
 	public void Reset_allChecker() {//­«³]´Ñ½L
 		Now_Player = 0;
-		Shogi.After.setForeground(Color.red);
-		Shogi.First.setForeground(Color.black);
+		Shogi.First.setForeground(Color.red);
+		Shogi.After.setForeground(Color.black);
 		
 		for(int p=0;p<2;p++) {for(int y=0;y<3;y++) {for(int x=0;x<3;x++) {
 			BreakInGrid[p][y][x].Reset();
