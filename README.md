@@ -21,4 +21,8 @@ Based on the basics of MFC_War-Of-Ships_Game topic and online materials of indep
 * @KILNETA  
   
 # Game interface  
+![image](https://user-images.githubusercontent.com/47145154/148687415-e93e98fd-e4b5-40a4-9560-63ae51264347.png)  
+![image](https://user-images.githubusercontent.com/47145154/148687441-78c592cb-07d5-42b7-a016-84d505ba6b5b.png)  
+![image](https://user-images.githubusercontent.com/47145154/148687484-8f445c42-b86e-4506-9ddf-a61a8b864818.png)  
+![image](https://user-images.githubusercontent.com/47145154/148687500-5ff88a58-af36-442d-baf3-526d09dfd2c9.png)  
 
